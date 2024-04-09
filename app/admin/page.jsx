@@ -107,7 +107,7 @@ const OrdersPage = () => {
         <div className='md:space-x-6 space-x-3 p-1'>
       {
         filterBtn.map(b=>(
-          <button className={` underline-offset-4 text-gray-700 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :""}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}</button>
+          <button className={` underline-offset-4 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :"text-gray-700 "}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}</button>
         ))
       }
       </div>

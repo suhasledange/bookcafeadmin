@@ -25,25 +25,26 @@ export default function Home() {
                 if(data.labels[0] === 'admin'){
                     dispatch(loginSlice({data}))
                     router.push('/admin')
+                    setLoading(false)
                 }
                 else{
                     alert('you are not admin')
                     await authService.logoutAccount()
+                    setLoading(false)
                 }
 
             }
             else{
                 alert("Invalid Crendentials")
+                setLoading(false)
             }
             
         } catch (error) {
             console.log("invalid credentials",error)
             alert("Invalid Crendentials")
+            setLoading(false)
         }
-        finally {
-            reset();
-            setLoading(false);
-          }
+        
     }
 
     useEffect(()=>{
