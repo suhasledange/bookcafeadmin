@@ -32,9 +32,13 @@ export default function Home() {
                 }
 
             }
+            else{
+                alert("Invalid Crendentials")
+            }
             
         } catch (error) {
-            console.log("invalid cred",error)
+            console.log("invalid credentials",error)
+            alert("Invalid Crendentials")
         }
         finally {
             reset();
