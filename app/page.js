@@ -1,7 +1,7 @@
 'use client'
 
 import { loginSlice } from "@/store/authSlice";
-import { usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
