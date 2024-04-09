@@ -69,7 +69,7 @@ const OrdersPage = () => {
     "PaymentMethod",
     "Price",
     "Quantity",
-    "Status"
+    "Status",
   ];
 
 

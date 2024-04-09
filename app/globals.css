@@ -10,12 +10,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #418aff;
+    background-color: #828282;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #a7a7a7;
+    background-color: #bcbcbc;
 }
 .order-scroll{
   :-webkit-scrollbar {
