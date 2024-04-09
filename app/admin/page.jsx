@@ -104,7 +104,7 @@ const OrdersPage = () => {
         </div>
 
         <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 p-3 mb-5">
-        <div className='space-x-6 p-1'>
+        <div className='md:space-x-6 space-x-3 p-1'>
       {
         filterBtn.map(b=>(
           <button className={` underline-offset-4 text-gray-700 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :""}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}</button>

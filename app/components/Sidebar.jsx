@@ -57,7 +57,7 @@ const Sidebar = ({menu,setMenu}) => {
         <div className='flex flex-col space-y-6'>
             { 
             links.map(l => (  
-                <Link href={l.link} className={`text-lg ${pathname === l.link ? "bg-blue-400/[0.3] text-blue-600":""} rounded-md p-2 px-4 flex items-center justify-center gap-2 hover:text-blue-600 duration-200 font-semibold tracking-widest`} key={l.id}>{l.logo} {menu ? l.text : ""} </Link>
+                <Link onClick={()=>setMenu(false)} href={l.link} className={`text-lg ${pathname === l.link ? "bg-blue-400/[0.3] text-blue-600":""} rounded-md p-2 px-4 flex items-center justify-center gap-2 hover:text-blue-600 duration-200 font-semibold tracking-widest`} key={l.id}>{l.logo} {menu ? l.text : ""} </Link>
             ))
             }
         
