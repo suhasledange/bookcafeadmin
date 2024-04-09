@@ -15,7 +15,6 @@ const OrderTableRow = ({ item, index }) => (
     <td className="px-4 py-2">{item.name}</td>
     <td className="px-4 py-2">{item.phone}</td>
     <td className="px-4 py-2">{item.address}</td>
-    <td className="px-4 py-2">{item.paymentMethod}</td>
     <td className="px-4 py-2">&#8377;{item.price}</td>
     <td className="px-4 py-2">{item.quantity}</td>
     <td className={`px-4 py-2`}>
@@ -66,7 +65,6 @@ const OrdersPage = () => {
     "UserName",
     "Phone",
     "Address",
-    "PaymentMethod",
     "Price",
     "Quantity",
     "Status",
