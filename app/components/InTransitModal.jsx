@@ -52,11 +52,11 @@ const InTransitModal = ({ fetchData, orderItem, setTransitModal }) => {
                             In Transit
                         </h4>
                         <div className='relative mt-3'>
-                            <table className="border-collapse w-full  ">
-                                <tbody className="text-left">
-                                    <tr>
+                            <table className="border-collapse ">
+                                <tbody  className="text-left">
+                                    <tr className=" ">
                                         <td className="border px-4 py-2 font-semibold">RazorPay ID</td>
-                                        <td className="border px-4 py-2 font-light">{orderItem.razorPayId}</td>
+                                        <td style={{ maxWidth: "150px", wordWrap: "break-word" }}  className=" border px-4 py-2 font-light">{orderItem.razorPayId}</td>
                                     </tr>
                                     <tr>
                                         <td className="border px-4 py-2 font-semibold">User Name</td>
