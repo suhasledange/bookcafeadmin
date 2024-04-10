@@ -4,7 +4,7 @@ import formatDate from "../util/formatDate";
 import { useState } from "react";
 import service from "../appwrite/service";
 import Loader from "./Loader";
-const InTransitModal = ({ fetchData, orderItem, setTransitModal }) => {
+const InTransitModal = ({ filterOrders, orderItem, setTransitModal }) => {
 
     const [loading, setLoading] = useState(false);
     const [option, setoption] = useState(null)
@@ -12,21 +12,16 @@ const InTransitModal = ({ fetchData, orderItem, setTransitModal }) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
+            let res;
             if (option === 'Confirm') {
-                const res = await service.confirmOrder(orderItem.$id)
-                if (res) {
-
-                    fetchData()
-                    setTransitModal(false)
-                }
+                res = await service.confirmOrder(orderItem.$id)
             }
             else if (option === 'Cancel') {
-                const res = await service.cancelOrder(orderItem.$id, orderItem.bookId)
-                if (res) {
-                    fetchData()
-                    setTransitModal(false)
-                }
+                res = await service.cancelOrder(orderItem.$id, orderItem.bookId)
+            }
+            if (res) {
+                setTransitModal(false)
+                filterOrders('IN_TRANSIT')
             }
         } catch (error) {
             console.log("error confirming order", error)

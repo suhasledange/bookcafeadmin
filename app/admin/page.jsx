@@ -109,10 +109,10 @@ const OrdersPage = () => {
   return (
     <Container>
       { TransitModal &&
-        <InTransitModal fetchData={fetchData} orderItem={orderItem} setTransitModal={setTransitModal}/>
+        <InTransitModal filterOrders={filterOrders} orderItem={orderItem} setTransitModal={setTransitModal}/>
       }
       { requestModal &&
-        <RequestModal fetchData={fetchData} orderItem={orderItem} setRequestModal={setRequestModal}/>
+        <RequestModal filterOrders={filterOrders} orderItem={orderItem} setRequestModal={setRequestModal}/>
       }
       
       <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">
