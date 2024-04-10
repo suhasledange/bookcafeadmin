@@ -7,7 +7,7 @@ const Admin = ({children}) => {
   const [menu,setMenu] = useState(false);
 
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+    <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
     <div className='md:hidden'>
       <Header menu={menu} setMenu={setMenu}/>
     </div>
