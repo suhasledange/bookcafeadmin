@@ -79,6 +79,7 @@ export class Service {
         try {
 
             const res = await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST, Id, {
+                payment:'cancel',
                 status:'Cancelled',
                 request:"",
             })
