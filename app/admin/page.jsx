@@ -4,6 +4,7 @@ import Container from '../components/Container';
 import service from '../appwrite/service';
 import formatDate from '../util/formatDate';
 import { IoSearch } from "react-icons/io5";
+
 const OrderTableRow = ({ item, index }) => (
   <tr key={item.$id} className='mb-2 pb-2 border-b border-gray-400 text-gray-700'>
     <td className="px-4 py-2">{index + 1}</td>
@@ -95,14 +96,14 @@ const OrdersPage = () => {
 
   return (
     <Container>
-      <div className="w-full flex-col h-full pb-5 pt-8 mb-4">
-        <div className='flex items-center gap-2 p-3 mb-2'>
+      <div className="w-full flex-col h-full pt-8 overflow-hidden">
+        <div className='flex items-center gap-2 mb-2'>
           <h1 className='text-xl font-semibold'>Orders</h1>
           <span className='text-md text-gray-700'>{filteredOrders.length} Orders found</span>
         </div>
 
-        <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 p-3 mb-5">
-        <div className='md:space-x-6 space-x-3 p-1'>
+        <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 mb-5">
+        <div className='md:space-x-6 space-x-3'>
       {
         filterBtn.map(b=>(
           <button className={` underline-offset-4 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :"text-gray-700 "}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}</button>
@@ -119,7 +120,9 @@ const OrdersPage = () => {
         </div>
         </div>
 
-        <div className='px-4 '>
+        <div className='border-2'>
+
+        <div className='table-container max-h-[calc(100vh-250px)] md:max-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
           <table className='text-left text-sm overflow-scroll'>
             <thead className="bg-gray-300">
               <tr>
@@ -142,6 +145,7 @@ const OrdersPage = () => {
 
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </Container>
