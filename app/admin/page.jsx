@@ -122,10 +122,11 @@ const OrdersPage = () => {
 
         <div className='border-2'>
 
-        <div className='min-h-[calc(100vh-250px)] md:min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
-          <table className='text-left text-sm overflow-scroll w-full'>
+        <div className='table-container max-h-[calc(100vh-250px)] md:max-h-[calc(100vh-180px)] min-h-[calc(100vh-250px)] md:min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
+          <table className='text-left text-sm w-full'>
             <thead className="bg-gray-300">
               <tr>
+
                 {tableHeaders.map((header, index) => (
                   <th key={index} className="px-4 py-2">{header}</th>
                 ))}
