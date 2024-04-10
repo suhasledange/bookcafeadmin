@@ -122,7 +122,7 @@ const OrdersPage = () => {
 
         <div className='border-2'>
 
-        <div className='max-h-[calc(100vh-250px)] md:min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
+        <div className='min-h-[calc(100vh-250px)] md:min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
           <table className='text-left text-sm overflow-scroll w-full'>
             <thead className="bg-gray-300">
               <tr>
