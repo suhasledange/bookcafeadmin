@@ -4,27 +4,40 @@ import formatDate from "../util/formatDate";
 import { useState } from "react";
 import service from "../appwrite/service";
 import Loader from "./Loader";
-const InTransitModal = ({ orderItem, setTransitModal }) => {
+const InTransitModal = ({ fetchData, orderItem, setTransitModal }) => {
 
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [option, setoption] = useState(null)
 
-    const handleSubmit = async ()=>{
+    const handleSubmit = async () => {
         try {
             setLoading(true);
-            const res = await service.confirmOrder(orderItem.$id)
-            if(res) {
-                window.location.reload();
+
+            if (option === 'Confirm') {
+                const res = await service.confirmOrder(orderItem.$id)
+                if (res) {
+
+                    fetchData()
+                    setTransitModal(false)
+                }
+            }
+            else if (option === 'Cancel') {
+                const res = await service.cancelOrder(orderItem.$id, orderItem.bookId)
+                if (res) {
+                    fetchData()
+                    setTransitModal(false)
+                }
             }
         } catch (error) {
-            console.log("error confirming order",error)
-        }finally{
+            console.log("error confirming order", error)
+        } finally {
             setLoading(false)
         }
     }
 
 
     return (
-        <div className='fixed inset-0 z-10 overflow-y-auto'>
+        <div className='fixed inset-0 z-50 overflow-y-auto'>
             <div className='fixed inset-0 w-full h-full bg-black opacity-40' onClick={() => setTransitModal(false)}>
             </div>
             <div className='flex items-center min-h-screen px-4 py-8'>
@@ -38,43 +51,68 @@ const InTransitModal = ({ orderItem, setTransitModal }) => {
                         <h4 className='text-lg font-semibold  text-gray-800'>
                             In Transit
                         </h4>
-                            <div className='relative mt-3'>
-                                <table className="border-collapse w-full  ">
-                                    <tbody className="text-left">
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">RazorPay ID</td>
-                                            <td className="border px-4 py-2 font-light">{orderItem.razorPayId}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">User Name</td>
-                                            <td className="border px-4 py-2 font-light">{orderItem.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">Address</td>
-                                            <td className="border px-4 py-2 font-light">{orderItem.address}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">Date Of Order</td>
-                                            <td className="border px-4 py-2 font-light">{formatDate(orderItem.DateOfOrder)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">Book Name</td>
-                                            <td className="border px-4 py-2 font-light">{orderItem.bookName}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border px-4 py-2 font-semibold">Quantity</td>
-                                            <td className="border px-4 py-2 font-light">{orderItem.quantity}</td>
-                                        </tr>
+                        <div className='relative mt-3'>
+                            <table className="border-collapse w-full  ">
+                                <tbody className="text-left">
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">RazorPay ID</td>
+                                        <td className="border px-4 py-2 font-light">{orderItem.razorPayId}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">User Name</td>
+                                        <td className="border px-4 py-2 font-light">{orderItem.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">Address</td>
+                                        <td className="border px-4 py-2 font-light">{orderItem.address}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">Date Of Order</td>
+                                        <td className="border px-4 py-2 font-light">{formatDate(orderItem.DateOfOrder)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">Book Name</td>
+                                        <td className="border px-4 py-2 font-light">{orderItem.bookName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border px-4 py-2 font-semibold">Quantity</td>
+                                        <td className="border px-4 py-2 font-light">{orderItem.quantity}</td>
+                                    </tr>
 
-                                    </tbody>
-                                </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='text-lg relative py-3 flex items-center gap-7'>
+                            <div className="">
+                                <input
+                                    type="radio"
+                                    id="confirm"
+                                    name="option"
+                                    value="confirm"
+                                    checked={option === 'Confirm'}
+                                    onChange={() => setoption('Confirm')}
+                                    className="custom-radio"
+                                />
+                                <label htmlFor="confirm" className="ml-2">Confirm</label>
                             </div>
-                            <div className='relative mt-3'>
-
+                            <div>
+                                <input
+                                    type="radio"
+                                    id="cancel"
+                                    name="option"
+                                    value="cancel"
+                                    checked={option === 'Cancel'}
+                                    onChange={() => setoption('Cancel')}
+                                    className="custom-radio"
+                                />
+                                <label htmlFor="cancel" className="ml-2">Cancel</label>
                             </div>
+                        </div>
+                        {option &&
                             <button onClick={handleSubmit} className='w-full mt-3 py-3 px-4 flex items-center justify-center gap-3 font-medium text-sm text-center text-white bg-black hover:bg-gray-900 duration-100 active:scale-95 rounded-sm'>
-                                Confirm Order {loading &&<Loader className1="w-6 h-6"/>}
+                                {option} Order {loading && <Loader className1="w-6 h-6" />}
                             </button>
+                        }
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ const Admin = ({children}) => {
       <Header menu={menu} setMenu={setMenu}/>
     </div>
     
-    <div className={`${menu ? "translate-x-0 md:w-[15%] w-[60%]" :"md:translate-x-0 -translate-x-full md:w-auto"} transform duration-200  md:relative left-0 absolute h-full shadow-md`}>
+    <div className={`${menu ? "translate-x-0 md:w-[15%] w-[60%]" :"md:translate-x-0 -translate-x-full md:w-auto"} transform duration-200  md:relative left-0 absolute h-full shadow-md z-40`}>
       <Sidebar menu={menu} setMenu={setMenu}/>
     </div>
     

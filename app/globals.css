@@ -22,6 +22,33 @@
     width: 0;
 }
 }
+.custom-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 16px;
+  width: 16px;
+  border: 2px solid black; 
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  margin-right: 0px;
+  position: relative;
+}
+
+.custom-radio:checked::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: black; /* Change fill color when checked */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+}
+
 :root {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;

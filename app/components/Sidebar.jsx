@@ -40,8 +40,8 @@ const Sidebar = ({menu,setMenu}) => {
   
 
   return (
-    <Container className="bg-white relative h-full flex justify-center">
-        <div className='flex items-center flex-col space-y-10 mt-20 z-40'>
+    <Container className="bg-white relative h-screen flex justify-center">
+        <div className='flex items-center flex-col space-y-10 mt-20 z-50'>
         
         <h1 onClick={()=>setMenu((prev)=>!prev)} className='hidden md:block cursor-pointer text-xl font-bold tracking-wider underline underline-offset-4 text-gray-600'>
                 {

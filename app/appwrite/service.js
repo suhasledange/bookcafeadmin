@@ -40,6 +40,30 @@ export class Service {
             console.log('error confirming order', error)
         }
     }
+    async confirmReturn(Id,bookId) {
+        try {
+
+            const res = await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST, Id, {
+                status:'Returned',
+                request:'',
+            })
+            if(res){
+                const book = await this.getBook(bookId)
+                
+                let availability = book.availability;
+                if(book.bookQuantity === 0) availability=true;
+
+                return await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_BOOKSTORE, bookId, {
+                    availability:availability,
+                    bookQuantity:book.bookQuantity+1,
+                })
+            }
+
+
+        } catch (error) {
+            console.log('error confirming order', error)
+        }
+    }
     
     async getBook(Id){
         try {

@@ -5,17 +5,25 @@ import { useState } from "react";
 import Loader from "./Loader";
 import service from "../appwrite/service";
 
-const RequestModal = ({orderItem,setRequestModal}) => {
+const RequestModal = ({fetchData,orderItem,setRequestModal}) => {
 
   const [loading,setLoading] = useState(false);
 
   const handleSubmit = async()=>{
       setLoading(true)
     try {
-        
-      const res = await service.cancelOrder(orderItem.$id,orderItem.bookId)
+    
+      let res
+        if(orderItem.request === 'Returning'){
+                console.log('returning')
+            res = await service.confirmReturn(orderItem.$id,orderItem.bookId)
+        }
+        else if(orderItem.request === 'Canceling'){
+            res = await service.cancelOrder(orderItem.$id,orderItem.bookId)
+        }
       if(res){
-        window.location.reload();
+            fetchData()
+            setRequestModal(false)
       }
 
     } catch (error) {
@@ -27,7 +35,7 @@ const RequestModal = ({orderItem,setRequestModal}) => {
   }
 
   return (
-    <div className='fixed inset-0 z-10 overflow-y-auto'>
+    <div className='fixed inset-0 z-50 overflow-y-auto'>
             <div className='fixed inset-0 w-full h-full bg-black opacity-40' onClick={() => setRequestModal(false)}>
             </div>
             <div className='flex items-center min-h-screen px-4 py-8'>

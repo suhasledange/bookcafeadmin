@@ -17,6 +17,8 @@ const OrdersPage = () => {
   const [TransitModal,setTransitModal] = useState(false)
   const [requestModal,setRequestModal] = useState(false)
   const [requests,setRequests] = useState(0);
+
+
   const fetchData = useCallback(async () => {
     try {
       const { documents } = await service.OrdeList();
@@ -107,10 +109,10 @@ const OrdersPage = () => {
   return (
     <Container>
       { TransitModal &&
-        <InTransitModal orderItem={orderItem} setTransitModal={setTransitModal}/>
+        <InTransitModal fetchData={fetchData} orderItem={orderItem} setTransitModal={setTransitModal}/>
       }
       { requestModal &&
-        <RequestModal orderItem={orderItem} setRequestModal={setRequestModal}/>
+        <RequestModal fetchData={fetchData} orderItem={orderItem} setRequestModal={setRequestModal}/>
       }
       
       <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">
@@ -120,7 +122,7 @@ const OrdersPage = () => {
         </div>
 
         <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 mb-5">
-        <div className='md:space-x-3 space-y-2 md:space-y-0'>
+        <div className='z-10 md:space-x-3 space-y-2 md:space-y-0'>
       {
         filterBtn.map(b=>(
           <button className={`relative ml-4 underline-offset-4 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :"text-gray-700 "}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}
