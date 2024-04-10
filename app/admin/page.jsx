@@ -4,33 +4,20 @@ import Container from '../components/Container';
 import service from '../appwrite/service';
 import formatDate from '../util/formatDate';
 import { IoSearch } from "react-icons/io5";
+import InTransitModal from '../components/InTransitModal';
+import RequestModal from '../components/RequestModal';
 
-const OrderTableRow = ({ item, index }) => (
-  <tr key={item.$id} className='mb-2 pb-2 border-b border-gray-400 text-gray-700'>
-    <td className="px-4 py-2">{index + 1}</td>
-    <td className="px-4 py-2">{item.razorPayId}</td>
-    <td className="px-4 py-2">{formatDate(item.DateOfOrder)}</td>
-    <td className="px-4 py-2">{formatDate(item.DeliveredDate)}</td>
-    <td className="px-4 py-2">{formatDate(item.DueDate)}</td>
-    <td className="px-4 py-2">{item.bookName}</td>
-    <td className="px-4 py-2">{item.name}</td>
-    <td className="px-4 py-2">{item.phone}</td>
-    <td className="px-4 py-2">{item.address}</td>
-    <td className="px-4 py-2">&#8377;{item.price}</td>
-    <td className="px-4 py-2">{item.quantity}</td>
-    <td className={`px-4 py-2`}>
-      <div className={` py-2 px-4 text-sm ${item.status === "DELIVERED" ? "bg-green-300/[0.3] text-green-500" : item.status === "IN_TRANSIT" ? "bg-yellow-300/[0.3] text-yellow-500 " : "bg-red-300/[0.3] text-red-500"} text-center rounded-full font-semibold`}>
-        {item.status}
-      </div>
-    </td>
-  </tr>
-);
 
 const OrdersPage = () => {
   const [orderList, setOrderList] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [activeFilter,setActiveFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [TransitModal,setTransitModal] = useState(false)
+  const [requestModal,setRequestModal] = useState(false)
+  const [deliveredModal,setDeliveredModal] = useState(false)
+
   const fetchData = useCallback(async () => {
     try {
       const { documents } = await service.OrdeList();
@@ -56,6 +43,19 @@ const OrdersPage = () => {
     }
   };
 
+  const OpenModal = (id,status)=>{
+    console.log(id,status)
+    status = status.toLowerCase()
+    if(status=== 'in_transit'){
+      setTransitModal(true)
+    } 
+    else if(status === 'request'){ 
+       setRequestModal(true)
+    }
+      else if (status === 'delivered') console.log('delivered open')
+  }
+
+
   const tableHeaders = [
     "SrNo.",
     "RazorPayId",
@@ -69,6 +69,7 @@ const OrdersPage = () => {
     "Price",
     "Quantity",
     "Status",
+    "Change",
   ];
 
 
@@ -92,10 +93,14 @@ const OrdersPage = () => {
     });
     setFilteredOrders(filtered);
   };
+
+
   
 
   return (
     <Container>
+      <InTransitModal TransitModal={TransitModal} setTransitModal={setTransitModal}/>
+      <RequestModal requestModal={requestModal} setRequestModal={setRequestModal}/>
       <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">
         <div className='flex items-center gap-2 mb-5'>
           <h1 className='text-xl font-semibold'>Orders</h1>
@@ -137,11 +142,30 @@ const OrdersPage = () => {
 
 
               {filteredOrders.map((item, index) => (
-                
-                <OrderTableRow key={item.$id} item={item} index={index} />
-              
+                 <tr key={item.$id} className='mb-2 pb-2 border-b border-gray-400 text-gray-700'>
+                 <td className="px-4 py-2">{index + 1}</td>
+                 <td className="px-4 py-2">{item.razorPayId}</td>
+                 <td className="px-4 py-2">{formatDate(item.DateOfOrder)}</td>
+                 <td className="px-4 py-2">{formatDate(item.DeliveredDate)}</td>
+                 <td className="px-4 py-2">{formatDate(item.DueDate)}</td>
+                 <td className="px-4 py-2">{item.bookName}</td>
+                 <td className="px-4 py-2">{item.name}</td>
+                 <td className="px-4 py-2">{item.phone}</td>
+                 <td className="px-4 py-2">{item.address}</td>
+                 <td className="px-4 py-2">&#8377;{item.price}</td>
+                 <td className="px-4 py-2">{item.quantity}</td>
+                 <td className={`px-4 py-2`}>
+                   <div className={` py-2 px-4 text-sm ${item.status === "DELIVERED" ? "bg-green-300/[0.3] text-green-500" : item.status === "IN_TRANSIT" ? "bg-yellow-300/[0.3] text-yellow-500 " : "bg-red-300/[0.3] text-red-500"} text-center rounded-full font-semibold`}>
+                     {item.status}
+                   </div>
+                 </td>
+                 <td className={`px-4 py-2`}>
+                   <div onClick={()=>OpenModal(item.$id,item.status)} className={` py-2 px-4 text-sm cursor-pointer active:scale-95 duration-200 bg-black text-white text-center rounded-sm font-semibold`}>
+                     Change
+                   </div>
+                 </td>
+               </tr>
               ))}
-
 
             </tbody>
           </table>
