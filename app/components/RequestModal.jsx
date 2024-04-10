@@ -56,7 +56,7 @@ const RequestModal = ({fetchData,orderItem,setRequestModal}) => {
                                     <tbody className="text-left">
                                         <tr>
                                             <td  className="border px-4 py-2 font-semibold">RazorPay ID</td>
-                                            <td  style={{ wordWrap: "break-word" }} className="max-w-[130px] border px-4 py-2 font-light">{orderItem.razorPayId}</td>
+                                            <td  style={{ wordWrap: "break-word" }} className="max-w-[100px] border px-4 py-2 font-light">{orderItem.razorPayId}</td>
                                         </tr>
                                         <tr>
                                             <td className="border px-4 py-2 font-semibold">User Name</td>
