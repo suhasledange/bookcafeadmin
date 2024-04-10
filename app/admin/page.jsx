@@ -96,8 +96,8 @@ const OrdersPage = () => {
 
   return (
     <Container>
-      <div className="w-full flex-col h-full pt-8 overflow-hidden">
-        <div className='flex items-center gap-2 mb-2'>
+      <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">
+        <div className='flex items-center gap-2 mb-5'>
           <h1 className='text-xl font-semibold'>Orders</h1>
           <span className='text-md text-gray-700'>{filteredOrders.length} Orders found</span>
         </div>
