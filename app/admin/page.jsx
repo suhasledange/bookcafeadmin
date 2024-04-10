@@ -13,11 +13,10 @@ const OrdersPage = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [activeFilter,setActiveFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [orderItem,setOrderItem] = useState(null);
   const [TransitModal,setTransitModal] = useState(false)
   const [requestModal,setRequestModal] = useState(false)
-  const [deliveredModal,setDeliveredModal] = useState(false)
-
+  const [requests,setRequests] = useState(0);
   const fetchData = useCallback(async () => {
     try {
       const { documents } = await service.OrdeList();
@@ -28,6 +27,13 @@ const OrdersPage = () => {
       console.error("Error fetching orders:", error);
     }
   }, []);
+
+  useEffect(()=>{
+    if(orderList.length){
+      const res = orderList.filter(order => order.status === 'Request');
+      setRequests(res.length)
+    }
+  },[orderList])
 
   useEffect(() => {
     fetchData();
@@ -43,14 +49,15 @@ const OrdersPage = () => {
     }
   };
 
-  const OpenModal = (id,status)=>{
-    console.log(id,status)
+  const OpenModal = (item,status)=>{
     status = status.toLowerCase()
     if(status=== 'in_transit'){
       setTransitModal(true)
+      setOrderItem(item)
     } 
     else if(status === 'request'){ 
        setRequestModal(true)
+       setOrderItem(item)
     }
       else if (status === 'delivered') console.log('delivered open')
   }
@@ -62,6 +69,7 @@ const OrdersPage = () => {
     "DateOfOrder",
     "DeliveredDate",
     "DueDate",
+    "Due",
     "BookName",
     "UserName",
     "Phone",
@@ -69,7 +77,7 @@ const OrdersPage = () => {
     "Price",
     "Quantity",
     "Status",
-    "Change",
+    "Update",
   ];
 
 
@@ -78,6 +86,7 @@ const OrdersPage = () => {
     { id: 2, text: 'Delivered', filter: "DELIVERED" },
     { id: 3, text: 'Pending', filter: "IN_TRANSIT" },
     { id: 4, text: 'Cancelled', filter: "CANCELLED" }, 
+    { id: 5, text: 'Requests', filter: "Request",req:true,}, 
   ];
 
   const handleSearch = (e) => {
@@ -95,23 +104,28 @@ const OrdersPage = () => {
   };
 
 
-  
-
   return (
     <Container>
-      <InTransitModal TransitModal={TransitModal} setTransitModal={setTransitModal}/>
-      <RequestModal requestModal={requestModal} setRequestModal={setRequestModal}/>
+      { TransitModal &&
+        <InTransitModal orderItem={orderItem} setTransitModal={setTransitModal}/>
+      }
+      { requestModal &&
+        <RequestModal orderItem={orderItem} setRequestModal={setRequestModal}/>
+      }
+      
       <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">
-        <div className='flex items-center gap-2 mb-5'>
+        <div className='flex items-center gap-2 mb-3 px-2'>
           <h1 className='text-xl font-semibold'>Orders</h1>
           <span className='text-md text-gray-700'>{filteredOrders.length} Orders found</span>
         </div>
 
         <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 mb-5">
-        <div className='md:space-x-6 space-x-3'>
+        <div className='md:space-x-3 space-y-2 md:space-y-0'>
       {
         filterBtn.map(b=>(
-          <button className={` underline-offset-4 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :"text-gray-700 "}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}</button>
+          <button className={`relative ml-4 underline-offset-4 font-semibold  ${activeFilter === b.filter ? "underline text-blue-700" :"text-gray-700 "}`} key={b.id} onClick={() => filterOrders(b.filter)}>{b.text}
+                {b.req && <div className=' absolute -right-[36%] text-red-500 top-0'>({requests})</div>}
+          </button>
         ))
       }
       </div>
@@ -127,7 +141,7 @@ const OrdersPage = () => {
 
         <div className='border-2'>
 
-        <div className='table-container max-h-[calc(100vh-250px)] md:max-h-[calc(100vh-180px)] min-h-[calc(100vh-250px)] md:min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
+        <div className='table-container max-h-[calc(100vh-180px)] min-h-[calc(100vh-180px)] overflow-y-scroll overflow-x-scroll'>
           <table className='text-left text-sm w-full'>
             <thead className="bg-gray-300">
               <tr>
@@ -148,6 +162,7 @@ const OrdersPage = () => {
                  <td className="px-4 py-2">{formatDate(item.DateOfOrder)}</td>
                  <td className="px-4 py-2">{formatDate(item.DeliveredDate)}</td>
                  <td className="px-4 py-2">{formatDate(item.DueDate)}</td>
+                 <td className="px-4 py-2">{item.Due}</td>
                  <td className="px-4 py-2">{item.bookName}</td>
                  <td className="px-4 py-2">{item.name}</td>
                  <td className="px-4 py-2">{item.phone}</td>
@@ -160,13 +175,16 @@ const OrdersPage = () => {
                    </div>
                  </td>
                  <td className={`px-4 py-2`}>
-                   <div onClick={()=>OpenModal(item.$id,item.status)} className={` py-2 px-4 text-sm cursor-pointer active:scale-95 duration-200 bg-black text-white text-center rounded-sm font-semibold`}>
-                     Change
-                   </div>
+                  { item.status === 'IN_TRANSIT' || item.status === 'Request' ?
+                    <button  onClick={()=>OpenModal(item,item.status)} className={` py-2 px-4 text-sm  active:scale-95 cursor-pointer duration-200 bg-black text-white text-center rounded-sm font-semibold`}>
+                     Update
+                   </button>
+                   :""
+                  }
+                 
                  </td>
                </tr>
               ))}
-
             </tbody>
           </table>
         </div>
