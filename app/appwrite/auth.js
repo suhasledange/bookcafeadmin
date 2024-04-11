@@ -16,7 +16,7 @@ export class AuthService{
 
     async loginAccount({email,password}){
         try {
-            return await this.account.createEmailPasswordSession(email,password);
+            return await this.account.createEmailSession(email,password);
         } catch (error) {
             throw error;
         }

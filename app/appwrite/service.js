@@ -16,9 +16,29 @@ export class Service {
 
     async OrdeList() {
         try {
-            return await this.databases.listDocuments(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST,[
-                Query.limit(50)
-            ])
+
+
+        let allDocuments = [];
+        let page = 1;
+        let documents;
+
+        do {
+          
+            documents = await this.databases.listDocuments(
+                conf.DATABASE_ID,
+                conf.COLLECTION_ID_ORDERLIST,
+                [
+                    Query.limit(50), 
+                    Query.offset((page - 1) * 50),
+                ]
+            );
+            
+            allDocuments = allDocuments.concat(documents);
+            
+            page++;
+        } while (documents.length === 0); 
+        return allDocuments[0];
+
         } catch (error) {
             console.log("error getting order list", error)
         }
