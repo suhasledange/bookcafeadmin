@@ -79,6 +79,8 @@ const OrdersPage = () => {
     "Address",
     "Price",
     "Quantity",
+    "ExtendRazorPay",
+    "ReturnRazorPay",
     "Status",
     "Update",
   ];
@@ -172,6 +174,8 @@ const OrdersPage = () => {
                  <td className="px-4 py-2">{item.address}</td>
                  <td className="px-4 py-2">&#8377;{item.price}</td>
                  <td className="px-4 py-2">{item.quantity}</td>
+                 <td className="px-4 py-2">{item.extendRpId}</td>
+                 <td className="px-4 py-2">{item.DueRpId}</td>
                  <td className={`px-4 py-2`}>
                    <div className={` py-2 px-4 text-sm ${item.status === "DELIVERED" ? "bg-green-300/[0.3] text-green-500" : item.status === "IN_TRANSIT" ? "bg-yellow-300/[0.3] text-yellow-500 " : "bg-red-300/[0.3] text-red-500"} text-center rounded-full font-semibold`}>
                      {item.status}
