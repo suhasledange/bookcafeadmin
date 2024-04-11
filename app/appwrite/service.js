@@ -16,8 +16,9 @@ export class Service {
 
     async OrdeList() {
         try {
-            return await this.databases.listDocuments(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST)
-
+            return await this.databases.listDocuments(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST,[
+                Query.limit(50)
+            ])
         } catch (error) {
             console.log("error getting order list", error)
         }

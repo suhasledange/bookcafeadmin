@@ -17,7 +17,7 @@ const OrdersPage = () => {
   const [TransitModal,setTransitModal] = useState(false)
   const [requestModal,setRequestModal] = useState(false)
   const [requests,setRequests] = useState(0);
-
+  const [reFetch,setReFetch] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -35,14 +35,15 @@ const OrdersPage = () => {
       const res = orderList.filter(order => order.status === 'Request');
       setRequests(res.length)
     }
-  },[orderList])
+  },[orderList,reFetch])
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData,reFetch]);
 
-  const filterOrders = (status) => {
-    setActiveFilter(status)
+  const filterOrders =  async (status) => {
+    console.log(status)
+     setActiveFilter(status)
     if (status === 'all') {
       setFilteredOrders(orderList);
     } else {
@@ -109,10 +110,10 @@ const OrdersPage = () => {
   return (
     <Container>
       { TransitModal &&
-        <InTransitModal filterOrders={filterOrders} orderItem={orderItem} setTransitModal={setTransitModal}/>
+        <InTransitModal setReFetch={setReFetch} filterOrders={filterOrders} orderItem={orderItem} setTransitModal={setTransitModal}/>
       }
       { requestModal &&
-        <RequestModal filterOrders={filterOrders} orderItem={orderItem} setRequestModal={setRequestModal}/>
+        <RequestModal setReFetch={setReFetch} filterOrders={filterOrders} orderItem={orderItem} setRequestModal={setRequestModal}/>
       }
       
       <div className="w-full flex-col h-full pt-4 md:pt-8 overflow-hidden">

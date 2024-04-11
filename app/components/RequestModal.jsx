@@ -5,7 +5,7 @@ import { useState } from "react";
 import Loader from "./Loader";
 import service from "../appwrite/service";
 
-const RequestModal = ({filterOrders,orderItem,setRequestModal}) => {
+const RequestModal = ({setReFetch,filterOrders,orderItem,setRequestModal}) => {
 
   const [loading,setLoading] = useState(false);
 
@@ -21,7 +21,8 @@ const RequestModal = ({filterOrders,orderItem,setRequestModal}) => {
             res = await service.cancelOrder(orderItem.$id,orderItem.bookId)
         }
       if(res){
-            filterOrders('Request')
+            await setReFetch((prev)=>!prev)
+            await filterOrders('Request')
             setRequestModal(false)
       }
 
