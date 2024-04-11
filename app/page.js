@@ -1,6 +1,6 @@
 'use client'
 
-import { loginSlice } from "@/store/authSlice";
+import { loginSlice, logoutSlice } from "@/store/authSlice";
 import {  useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form'
@@ -30,18 +30,20 @@ export default function Home() {
                 else{
                     alert('you are not admin')
                     await authService.logoutAccount()
+                    dispatch(logoutSlice())
                     setLoading(false)
                 }
-
             }
             else{
                 alert("Invalid Crendentials")
+                dispatch(logoutSlice())
                 setLoading(false)
             }
             
         } catch (error) {
             console.log("invalid credentials",error)
             alert("Invalid Crendentials")
+            dispatch(logoutSlice())
             setLoading(false)
         }
         

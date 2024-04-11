@@ -17,7 +17,6 @@ export class Service {
     async OrdeList() {
         try {
 
-
         let allDocuments = [];
         let page = 1;
         let documents;
@@ -65,6 +64,7 @@ export class Service {
         try {
 
             const res = await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST, Id, {
+                DueDate:null,
                 status:'Returned',
                 request:'',
             })
@@ -100,6 +100,7 @@ export class Service {
         try {
 
             const res = await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST, Id, {
+                DueDate:null,
                 payment:'cancel',
                 status:'Cancelled',
                 request:"",
