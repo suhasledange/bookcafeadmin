@@ -1,7 +1,6 @@
 'use client'
 
 import authService from "@/app/appwrite/auth";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch } from 'react-redux';
 import { loginSlice } from "./authSlice";
