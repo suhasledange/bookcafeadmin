@@ -42,7 +42,6 @@ const OrdersPage = () => {
   }, [fetchData,reFetch]);
 
   const filterOrders =  async (status) => {
-    console.log(status)
      setActiveFilter(status)
     if (status === 'all') {
       setFilteredOrders(orderList);

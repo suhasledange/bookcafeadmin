@@ -15,7 +15,7 @@ const InTransitModal = ({ setReFetch,filterOrders, orderItem, setTransitModal })
             setLoading(true);
             let res;
             if (option === 'Confirm') {
-                res = await service.confirmOrder(orderItem.$id)
+                res = await service.confirmOrder(orderItem.$id,orderItem.bookId)
             }
             else if (option === 'Cancel') {
                 res = await service.cancelOrder(orderItem.$id, orderItem.bookId)

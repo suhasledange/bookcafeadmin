@@ -1,5 +1,5 @@
-const { conf } = require("../util/conf");
 import {Client,Account} from 'appwrite'
+import { conf } from '../util/conf';
 
 export class AuthService{
 

@@ -43,11 +43,14 @@ export class Service {
         }
     }
 
-    async confirmOrder(Id) {
+    async confirmOrder(Id,bookId) {
         try {
+            
+            const res = await this.getBook(bookId)
+
             const currentDate = new Date();
             const dueDate = new Date(currentDate);
-            dueDate.setDate(dueDate.getDate() + 11);
+            dueDate.setDate(dueDate.getDate() + res?.rentPeriod);
 
             return await this.databases.updateDocument(conf.DATABASE_ID, conf.COLLECTION_ID_ORDERLIST, Id, {
                 DueDate:dueDate,
@@ -56,6 +59,7 @@ export class Service {
                 DeliveredDate:currentDate,
                 Due:0
             })
+
         } catch (error) {
             console.log('error confirming order', error)
         }
@@ -117,7 +121,6 @@ export class Service {
                     bookQuantity:book.bookQuantity+1,
                 })
             }
-
 
         } catch (error) {
             console.log('error confirming order', error)
